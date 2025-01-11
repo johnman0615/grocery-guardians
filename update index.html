@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Group 8 Grocery List Budget Tracker</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .hidden { display: none; }
+    .alert { color: red; font-weight: bold; }
+    .over-budget { color: red; }
+    .category { cursor: pointer; margin: 5px 0; font-weight: bold; }
+    .item { cursor: pointer; margin: 3px 0; padding: 5px; }
+    .grocery-item { display: flex; justify-content: space-between; align-items: center; }
+    .remove-btn { margin-left: 10px; color: red; cursor: pointer; border: none; background: none; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div id="landing-page" class="container">
+    <h2>Welcome to Group 8 Grocery Tracker</h2>
+    <form id="login-form">
+      <label>Username: <input type="text" id="username" required></label><br><br>
+      <label>Password: <input type="password" id="password" required></label><br><br>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <div id="tracker-page" class="container hidden">
+    <h2>Grocery Budget Tracker</h2>
+    <label for="budget">Set your Budget: $<input type="number" id="budget" placeholder="0"></label><br><br>
+    <div id="categories">
+      <h3>Categories</h3>
+      <div class="category" data-category="produce">Produce</div>
+      <div class="category" data-category="dairy">Dairy</div>
+      <div class="category" data-category="frozen">Frozen</div>
+      <div class="category" data-category="gluten-other-allergens">Gluten/Other Allergens</div>
+      <div class="category" data-category="dry-goods">Dry Goods</div>
+      <div class="category" data-category="household-goods">Household Goods</div>
+      <div class="category" data-category="pet-supplies">Pet Supplies</div>
+    </div>
+
+    <div id="items-list" class="hidden">
+      <h3>Select Items</h3>
+      <ul id="items"></ul>
+      <button id="back-to-categories">Back to Categories</button>
+    </div>
+
+    <div id="grocery-list">
+      <h3>Your Grocery List</h3>
+      <ul id="grocery"></ul>
+      <h4>Total: $<span id="total">0</span></h4>
+      <p id="alert" class="hidden alert">Oh no you are over budget!</p>
+    </div>
+  </div>
+
+  <script>
+    const categories = {
+      produce: ["Apples", "Bananas", "Carrots", "Lettuce", "Tomatoes", "Potatoes", "Onions", "Bell Peppers", "Broccoli", "Spinach", "Cucumbers", "Mushrooms", "Strawberries", "Blueberries", "Raspberries", "Blackberries", "Oranges", "Grapes", "Watermelon", "Cantaloupe", "Honeydew", "Pineapple", "Kiwi", "Mango", "Peaches", "Plums", "Pears", "Cherries", "Avocado", "Lemon", "Lime", "Garlic", "Ginger", "Cilantro", "Basil", "Mint", "Parsley", "Thyme", "Rosemary", "Oregano", "Sage", "Dill", "Chives", "Green Onions", "Celery", "Cabbage", "Brussels Sprouts", "Asparagus", "Artichokes", "Eggplant", "Zucchini", "Squash", "Pumpkin", "Sweet Potatoes", "Russet Potatoes", "Yukon Gold Potatoes", "Red Potatoes", "Carrots", "Beets", "Fennel", "Okra", "Snap Peas", "Snow Peas", "Green Beans", "Wax Beans", "Pinto Beans", "Black Beans", "Kidney Beans", "Garbanzo Beans", "Lentils", "Peas", "Corn", "Bell Peppers", "Jalapenos", "Poblano Peppers", "Chili Peppers", "Banana Peppers"],
+      dairy: ["Milk", "Cheese", "Yogurt", "Butter", "Eggs", "Cottage Cheese", "Cream Cheese", "Whipped Cream", "Half & Half", "Heavy Cream", "Sour Cream", "Buttermilk", "Goat Cheese", "Feta Cheese", "Parmesan Cheese", "Mozzarella Cheese", "Cheddar Cheese", "Swiss Cheese", "Provolone Cheese", "Gouda Cheese", "Gorgonzola Cheese", "Havarti Cheese", "Monterey Jack Cheese", "Pepper Jack Cheese", "Colby Jack Cheese", "American Cheese", "Muenster Cheese", "Bleu Cheese", "Ricotta Cheese"],
+      frozen: ["Pizza", "Ice Cream"],
+      "gluten-other-allergens": ["Gluten-Free Bread"],
+      "dry-goods": ["Rice", "Pasta"],
+      "household-goods": ["Soap", "Toilet Paper"],
+      "pet-supplies": ["Dog Food", "Cat Litter"]
+    };
+
+    const landingPage = document.getElementById("landing-page");
+    const trackerPage = document.getElementById("tracker-page");
+    const loginForm = document.getElementById("login-form");
+    const budgetInput = document.getElementById("budget");
+    const categoriesDiv = document.getElementById("categories");
+    const itemsListDiv = document.getElementById("items-list");
+    const itemsUl = document.getElementById("items");
+    const groceryListUl = document.getElementById("grocery");
+    const totalSpan = document.getElementById("total");
+    const alertMessage = document.getElementById("alert");
+    const backToCategoriesBtn = document.getElementById("back-to-categories");
+
+    let budget = 0;
+    let total = 0;
+    let groceryList = JSON.parse(localStorage.getItem("groceryList")) || [];
+
+    function updateGroceryListUI() {
+      groceryListUl.innerHTML = "";
+      total = 0;
+      groceryList.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.className = "grocery-item";
+        li.innerHTML = `
+          ${item.name} - $${item.price.toFixed(2)}
+          <button class="remove-btn" data-index="${index}">Remove</button>
+        `;
+        if (item.overBudget) li.classList.add("over-budget");
+        groceryListUl.appendChild(li);
+        total += item.price;
+      });
+      totalSpan.textContent = total.toFixed(2);
+      alertMessage.classList.toggle("hidden", total <= budget);
+    }
+
+    function saveGroceryList() {
+      localStorage.setItem("groceryList", JSON.stringify(groceryList));
+    }
+
+    loginForm.addEventListener("submit", e => {
+      e.preventDefault();
+      landingPage.classList.add("hidden");
+      trackerPage.classList.remove("hidden");
+    });
+
+    budgetInput.addEventListener("change", e => {
+      budget = parseFloat(e.target.value);
+      updateGroceryListUI();
+    });
+
+    categoriesDiv.addEventListener("click", e => {
+      if (e.target.classList.contains("category")) {
+        const category = e.target.dataset.category;
+        itemsUl.innerHTML = "";
+        categories[category].forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          li.classList.add("item");
+          li.dataset.name = item;
+          itemsUl.appendChild(li);
+        });
+        categoriesDiv.classList.add("hidden");
+        itemsListDiv.classList.remove("hidden");
+      }
+    });
+
+    itemsUl.addEventListener("click", e => {
+      if (e.target.classList.contains("item")) {
+        const name = e.target.dataset.name;
+        const price = parseFloat(prompt(`Enter the price for ${name}:`));
+        if (!isNaN(price)) {
+          const overBudget = total + price > budget;
+          groceryList.push({ name, price, overBudget });
+          updateGroceryListUI();
+          saveGroceryList();
+        } else {
+          alert("Invalid price. Please try again.");
+        }
+      }
+    });
+
+    backToCategoriesBtn.addEventListener("click", () => {
+      categoriesDiv.classList.remove("hidden");
+      itemsListDiv.classList.add("hidden");
+    });
+
+    groceryListUl.addEventListener("click", e => {
+      if (e.target.classList.contains("remove-btn")) {
+        const index = e.target.dataset.index;
+        groceryList.splice(index, 1);
+        updateGroceryListUI();
+        saveGroceryList();
+      }
+    });
+
+    updateGroceryListUI();
+  </script>
+</body>
+</html>
