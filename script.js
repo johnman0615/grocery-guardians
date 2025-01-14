@@ -1,3 +1,13 @@
+const categories = {
+  produce: ["Apples", "Bananas", "Carrots", "Lettuce", "Tomatoes", "Potatoes", "Onions", "Bell Peppers", "Broccoli", "Spinach", "Cucumbers", "Mushrooms", "Strawberries", "Blueberries", "Raspberries", "Blackberries", "Oranges", "Grapes", "Watermelon", "Cantaloupe", "Honeydew", "Pineapple", "Kiwi", "Mango", "Peaches", "Plums", "Pears", "Cherries", "Avocado", "Lemon", "Lime", "Garlic", "Ginger", "Cilantro", "Basil", "Mint", "Parsley", "Thyme", "Rosemary", "Oregano", "Sage", "Dill", "Chives", "Green Onions", "Celery", "Cabbage", "Brussels Sprouts", "Asparagus", "Artichokes", "Eggplant", "Zucchini", "Squash", "Pumpkin", "Sweet Potatoes", "Russet Potatoes", "Yukon Gold Potatoes", "Red Potatoes", "Carrots", "Beets", "Fennel", "Okra", "Snap Peas", "Snow Peas", "Green Beans", "Wax Beans", "Pinto Beans", "Black Beans", "Kidney Beans", "Garbanzo Beans", "Lentils", "Peas", "Corn", "Bell Peppers", "Jalapenos", "Poblano Peppers", "Chili Peppers", "Banana Peppers"],
+  dairy: ["Milk", "Cheese", "Yogurt", "Butter", "Eggs", "Cottage Cheese", "Cream Cheese", "Whipped Cream", "Half & Half", "Heavy Cream", "Sour Cream", "Buttermilk", "Goat Cheese", "Feta Cheese", "Parmesan Cheese", "Mozzarella Cheese", "Cheddar Cheese", "Swiss Cheese", "Provolone Cheese", "Gouda Cheese", "Gorgonzola Cheese", "Havarti Cheese", "Monterey Jack Cheese", "Pepper Jack Cheese", "Colby Jack Cheese", "American Cheese", "Muenster Cheese", "Bleu Cheese", "Ricotta Cheese"],
+  frozen: ["Pizza", "Ice Cream", "Frozen Vegetables", "Frozen Fruit", "Frozen Meals", "Frozen Breakfast", "Frozen Desserts", "Frozen Snacks", "Frozen Appetizers"],
+  "gluten-other-allergens": ["Gluten-Free Bread", "Gluten-Free Pasta", "Gluten-Free Crackers", "Gluten-Free Cookies", "Gluten-Free Cereal", "Gluten-Free Baking Mixes"],
+  "dry-goods": ["Rice", "Pasta", "Cereal", "Oatmeal", "Quinoa", "Couscous", "Barley", "Farro", "Flour", "Sugar", "Brown Sugar", "Baking Powder"],
+  "household-goods": ["Soap", "Toilet Paper", "Paper Towels", "Laundry Detergent", "Dish Soap", "Cleaning Supplies", "Trash Bags"],
+  "pet-supplies": ["Dog Food", "Cat Litter", "Cat Food", "Dog Treats", "Cat Treats", "Dog Toys", "Cat Toys"],
+};
+
 const landingPage = document.getElementById("landing-page");
 const trackerPage = document.getElementById("tracker-page");
 const loginForm = document.getElementById("login-form");
@@ -14,75 +24,10 @@ let budget = 0;
 let total = 0;
 let groceryList = JSON.parse(localStorage.getItem("groceryList")) || [];
 
-const categories = {
-  produce: ["Apples", "Bananas", "Carrots", "Lettuce"],
-  dairy: ["Milk", "Cheese", "Yogurt"],
-  frozen: ["Pizza", "Ice Cream"],
-  "gluten-other-allergens": ["Gluten-Free Bread"],
-  "dry-goods": ["Rice", "Pasta"],
-  "household-goods": ["Soap", "Toilet Paper"],
-  "pet-supplies": ["Dog Food", "Cat Litter"]
-};
-
-// Handle login
-loginForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  landingPage.classList.add("hidden");
-  trackerPage.classList.remove("hidden");
-});
-
-// Set budget
-budgetInput.addEventListener("input", () => {
-  budget = parseFloat(budgetInput.value) || 0;
-  updateGroceryListUI();
-});
-
-// Display items for a category
-categoriesDiv.addEventListener("click", (e) => {
-  if (e.target.classList.contains("category")) {
-    const category = e.target.dataset.category;
-    const items = categories[category];
-    itemsUl.innerHTML = items
-      .map(item => `<li class="item">${item}</li>`)
-      .join("");
-    categoriesDiv.classList.add("hidden");
-    itemsListDiv.classList.remove("hidden");
-  }
-});
-
-// Add item to grocery list
-itemsUl.addEventListener("click", (e) => {
-  if (e.target.classList.contains("item")) {
-    const name = e.target.textContent;
-    const price = parseFloat(prompt(`Enter price for ${name}`)) || 0;
-    if (price > 0) {
-      groceryList.push({ name, price });
-      updateGroceryListUI();
-      saveGroceryList();
-    }
-  }
-});
-
-// Back to categories
-backToCategoriesBtn.addEventListener("click", () => {
-  categoriesDiv.classList.remove("hidden");
-  itemsListDiv.classList.add("hidden");
-});
-
-// Remove item from grocery list
-groceryListUl.addEventListener("click", (e) => {
-  if (e.target.classList.contains("remove-btn")) {
-    const index = e.target.dataset.index;
-    groceryList.splice(index, 1);
-    updateGroceryListUI();
-    saveGroceryList();
-  }
-});
-
-// Update UI
 function updateGroceryListUI() {
   groceryListUl.innerHTML = "";
   total = 0;
+
   groceryList.forEach((item, index) => {
     const li = document.createElement("li");
     li.className = "grocery-item";
@@ -91,16 +36,79 @@ function updateGroceryListUI() {
       <button class="remove-btn" data-index="${index}">Remove</button>
     `;
     groceryListUl.appendChild(li);
-    total += item.price;
+    total += item.price; // Add the price to the total
   });
-  totalSpan.textContent = total.toFixed(2);
-  alertMessage.classList.toggle("hidden", total <= budget);
+
+  totalSpan.textContent = total.toFixed(2); // Update the total display
+
+  // Show or hide the over-budget warning
+  if (total > budget) {
+    alertMessage.classList.remove("hidden"); // Show warning
+  } else {
+    alertMessage.classList.add("hidden"); // Hide warning
+  }
+
+  localStorage.setItem("groceryList", JSON.stringify(groceryList)); // Persist changes
 }
 
-// Save grocery list to localStorage
-function saveGroceryList() {
-  localStorage.setItem("groceryList", JSON.stringify(groceryList));
+function handleCategorySelection(category) {
+  itemsUl.innerHTML = "";
+  categories[category].forEach((item) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      ${item}
+      <button class="add-btn" data-item="${item}" data-price="${(Math.random() * 10 + 1).toFixed(2)}">Add</button>
+    `;
+    itemsUl.appendChild(li);
+  });
+  categoriesDiv.classList.add("hidden");
+  itemsListDiv.classList.remove("hidden");
 }
+
+function handleAddItem(itemName, price) {
+  const item = { name: itemName, price: parseFloat(price) };
+  groceryList.push(item);
+  updateGroceryListUI();
+}
+
+function handleRemoveItem(index) {
+  groceryList.splice(index, 1);
+  updateGroceryListUI();
+}
+
+function handleSubmitLogin(event) {
+  event.preventDefault();
+  budget = parseFloat(budgetInput.value);
+  landingPage.classList.add("hidden");
+  trackerPage.classList.remove("hidden");
+  updateGroceryListUI();
+}
+
+// Event Listeners
+loginForm.addEventListener("submit", handleSubmitLogin);
+categoriesDiv.addEventListener("click", (e) => {
+  if (e.target.tagName === "BUTTON") {
+    const category = e.target.dataset.category;
+    handleCategorySelection(category);
+  }
+});
+itemsUl.addEventListener("click", (e) => {
+  if (e.target.classList.contains("add-btn")) {
+    const itemName = e.target.dataset.item;
+    const price = e.target.dataset.price;
+    handleAddItem(itemName, price);
+  }
+});
+groceryListUl.addEventListener("click", (e) => {
+  if (e.target.classList.contains("remove-btn")) {
+    const index = e.target.dataset.index;
+    handleRemoveItem(index);
+  }
+});
+backToCategoriesBtn.addEventListener("click", () => {
+  itemsListDiv.classList.add("hidden");
+  categoriesDiv.classList.remove("hidden");
+});
 
 // Initialize UI
 updateGroceryListUI();
