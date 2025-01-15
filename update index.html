@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css" />
   <title>Group 8 Grocery List Budget Tracker</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
@@ -16,6 +15,7 @@
     .grocery-item { display: flex; justify-content: space-between; align-items: center; }
     .remove-btn { margin-left: 10px; color: red; cursor: pointer; border: none; background: none; font-size: 14px; }
   </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body>
   <div id="landing-page" class="container">
@@ -76,13 +76,14 @@
       "dry-goods": ["Rice", "Pasta", "Cereal", "Oatmeal", "Quinoa", "Couscous", "Barley", "Farro", "Polenta", "Grits", "Flour", "Sugar", "Brown Sugar", "Powdered Sugar", "Granulated Sugar", "Honey", "Maple Syrup", "Agave Nectar", "Molasses", "Cornmeal", "Baking Powder", "Baking Soda", "Yeast", "Salt", "Pepper", "Spices", "Herbs", "Vanilla Extract", "Almond Extract", "Coconut Extract", "Lemon Extract", "Orange Extract", "Mint Extract", "Cocoa Powder", "Chocolate Chips", "Nuts", "Seeds", "Dried Fruit", "Canned Goods", "Canned Vegetables", "Canned Fruit", "Canned Beans", "Canned Soup", "Canned Meat", "Canned Seafood", "Canned Tomatoes", "Canned Sauce", "Canned Pasta", "Canned Broth", "Canned Stock", "Canned Gravy", "Canned Chili", "Canned Stew", "Canned Pie Filling", "Canned Desserts", "Canned Pie Crust", "Canned Cake Mix", "Canned Frosting", "Canned Cookies", "Canned Crackers", "Canned Snacks", "Canned Candy", "Canned Beverages", "Canned Juice", "Canned Soda", "Canned Water", "Canned Tea", "Canned Coffee", "Ketcup", "Mustard", "Mayonnaise", "Soy Sauce", "Teriyaki Sauce", "Worcestershire Sauce", "Hot Sauce", "BBQ Sauce", "Salsa", "Pasta Sauce", "Pizza Sauce", "Marinara Sauce", "Alfredo Sauce", "Pesto Sauce", "Taco Sauce", "Enchilada Sauce"],
       "household-goods": ["Soap", "Toilet Paper", "Paper Towels", "Laundry Detergent", "Dish Soap", "Cleaning Supplies", "Trash Bags", "Aluminum Foil", "Plastic Wrap", "Ziploc Bags", "Tupperware", "Plates", "Bowls", "Cups", "Utensils", "Napkins", "Paper Plates", "Paper Bowls", "Paper Cups", "Plastic Utensils", "Plastic Cups", "Plastic Plates", "Plastic Bowls", "Plastic Bags", "Plastic Containers", "Plastic Wrap", "Aluminum Foil", "Ziploc Bags", "Tupperware", "Trash Bags", "Cleaning Supplies", "Laundry Detergent", "Dish Soap", "Hand Soap", "Body Wash", "Shampoo", "Conditioner", "Lotion", "Sunscreen", "Bug Spray", "Toothpaste", "Toothbrush", "Floss", "Mouthwash", "Deodorant", "Shaving Cream", "Razors", "Feminine Products", "Diapers", "Wipes", "Baby Food", "Baby Formula", "Baby Bottles", "Baby Pacifiers", "Baby Toys", "Baby Clothes", "Baby Shoes", "Baby Accessories"],
       "pet-supplies": ["Dog Food", "Cat Litter", "Cat Food", "Dog Treats", "Cat Treats", "Dog Toys", "Cat Toys", "Dog Collars", "Cat Collars", "Dog Leashes", "Cat Leashes", "Dog Beds", "Cat Beds", "Dog Crates", "Cat Carriers", "Dog Bowls", "Cat Bowls", "Dog Grooming Supplies", "Cat Grooming Supplies", "Dog Shampoo", "Cat Shampoo", "Dog Brushes", "Cat Brushes", "Dog Nail Clippers", "Cat Nail Clippers", "Dog Toothbrushes", "Cat Toothbrushes", "Dog Toothpaste", "Cat Toothpaste", "Dog Dental Chews", "Cat Dental Chews", "Dog Dental Treats", "Cat Dental Treats", "Dog Dental Toys", "Cat Dental Toys", "Dog Dental Sticks", "Cat Dental Sticks", "Dog Dental Bones", "Cat Dental Bones", "Dog Dental Wipes", "Cat Dental Wipes", "Dog Dental Spray", "Cat Dental Spray", "Dog Dental Rinse", "Cat Dental Rinse", "Dog Dental Gel", "Cat Dental Gel", "Dog Dental Water Additive", "Cat Dental Water Additive", "Dog Dental Powder", "Cat Dental Powder", "Dog Dental Liquid", "Cat Dental Liquid", "Dog Dental Paste", "Cat Dental Paste", "Dog Dental Foam", "Cat Dental Foam", "Dog Dental Drops", "Cat Dental Drops", "Dog Dental Treatments", "Cat Dental Treatments", "Dog Dental Care", "Cat Dental Care", "Dog Dental Health", "Cat Dental Health", "Dog Dental Hygiene", "Cat Dental Hygiene", "Dog Dental Cleaning", "Cat Dental Cleaning"],
-    
+   
  frozen: ["Pizza", "Ice Cream"],
 
       "gluten-other-allergens": ["Gluten-Free Bread"],
       "dry-goods": ["Rice", "Pasta"],
       "household-goods": ["Soap", "Toilet Paper"],
-      "pet-supplies": ["Dog Food", "Cat Litter"]
+        "pet-supplies": ["Dog Food", "Cat Litter"]
+      };
 
 
     const landingPage = document.getElementById("landing-page");
@@ -181,5 +182,6 @@
 
     updateGroceryListUI();
   </script>
+  <script src="script.js"></script>
 </body>
 </html>
