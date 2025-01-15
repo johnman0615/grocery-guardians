@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
   <title>Group 8 Grocery List Budget Tracker</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
@@ -59,6 +60,11 @@
 
   <script>
     const categories = {
+
+      produce: ["Apples", "Bananas", "Carrots", "Lettuce"],
+      dairy: ["Milk", "Cheese", "Yogurt"],
+      frozen: ["Pizza", "Ice Cream"],
+
       produce: ["Apples", "Bananas", "Carrots", "Lettuce", "Tomatoes", "Potatoes", "Onions", "Bell Peppers", "Broccoli", "Spinach", "Cucumbers", "Mushrooms", "Strawberries", "Blueberries", "Raspberries", "Blackberries", "Oranges", "Grapes", "Watermelon", "Cantaloupe", "Honeydew", "Pineapple", "Kiwi", "Mango", "Peaches", "Plums", "Pears", "Cherries", "Avocado", "Lemon", "Lime", "Garlic", "Ginger", "Cilantro", "Basil", "Mint", "Parsley", "Thyme", "Rosemary", "Oregano", "Sage", "Dill", "Chives", "Green Onions", "Celery", "Cabbage", "Brussels Sprouts", "Asparagus", "Artichokes", "Eggplant", "Zucchini", "Squash", "Pumpkin", "Sweet Potatoes", "Russet Potatoes", "Yukon Gold Potatoes", "Red Potatoes", "Carrots", "Beets", "Fennel", "Okra", "Snap Peas", "Snow Peas", "Green Beans", "Wax Beans", "Pinto Beans", "Black Beans", "Kidney Beans", "Garbanzo Beans", "Lentils", "Peas", "Corn", "Bell Peppers", "Jalapenos", "Poblano Peppers", "Chili Peppers", "Banana Peppers"],
 
        dairy: ["Milk", "Cheese", "Yogurt", "Butter", "Eggs", "Cottage Cheese", "Cream Cheese", "Whipped Cream", "Half & Half", "Heavy Cream", "Sour Cream", "Buttermilk", "Goat Cheese", "Feta Cheese", "Parmesan Cheese", "Mozzarella Cheese", "Cheddar Cheese", "Swiss Cheese", "Provolone Cheese", "Gouda Cheese", "Gorgonzola Cheese", "Havarti Cheese", "Monterey Jack Cheese", "Pepper Jack Cheese", "Colby Jack Cheese", "American Cheese", "Muenster Cheese", "Bleu Cheese", "Ricotta Cheese"],
@@ -72,12 +78,12 @@
       "pet-supplies": ["Dog Food", "Cat Litter", "Cat Food", "Dog Treats", "Cat Treats", "Dog Toys", "Cat Toys", "Dog Collars", "Cat Collars", "Dog Leashes", "Cat Leashes", "Dog Beds", "Cat Beds", "Dog Crates", "Cat Carriers", "Dog Bowls", "Cat Bowls", "Dog Grooming Supplies", "Cat Grooming Supplies", "Dog Shampoo", "Cat Shampoo", "Dog Brushes", "Cat Brushes", "Dog Nail Clippers", "Cat Nail Clippers", "Dog Toothbrushes", "Cat Toothbrushes", "Dog Toothpaste", "Cat Toothpaste", "Dog Dental Chews", "Cat Dental Chews", "Dog Dental Treats", "Cat Dental Treats", "Dog Dental Toys", "Cat Dental Toys", "Dog Dental Sticks", "Cat Dental Sticks", "Dog Dental Bones", "Cat Dental Bones", "Dog Dental Wipes", "Cat Dental Wipes", "Dog Dental Spray", "Cat Dental Spray", "Dog Dental Rinse", "Cat Dental Rinse", "Dog Dental Gel", "Cat Dental Gel", "Dog Dental Water Additive", "Cat Dental Water Additive", "Dog Dental Powder", "Cat Dental Powder", "Dog Dental Liquid", "Cat Dental Liquid", "Dog Dental Paste", "Cat Dental Paste", "Dog Dental Foam", "Cat Dental Foam", "Dog Dental Drops", "Cat Dental Drops", "Dog Dental Treatments", "Cat Dental Treatments", "Dog Dental Care", "Cat Dental Care", "Dog Dental Health", "Cat Dental Health", "Dog Dental Hygiene", "Cat Dental Hygiene", "Dog Dental Cleaning", "Cat Dental Cleaning"],
     
  frozen: ["Pizza", "Ice Cream"],
+
       "gluten-other-allergens": ["Gluten-Free Bread"],
       "dry-goods": ["Rice", "Pasta"],
       "household-goods": ["Soap", "Toilet Paper"],
       "pet-supplies": ["Dog Food", "Cat Litter"]
 
-    };
 
     const landingPage = document.getElementById("landing-page");
     const trackerPage = document.getElementById("tracker-page");
