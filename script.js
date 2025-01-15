@@ -1,11 +1,11 @@
 const categories = {
-  produce: ["Apples", "Bananas", "Carrots", "Lettuce", "Tomatoes", "Potatoes", "Onions", "Bell Peppers", "Broccoli", "Spinach", "Cucumbers", "Mushrooms", "Strawberries", "Blueberries", "Raspberries", "Blackberries", "Oranges", "Grapes", "Watermelon", "Cantaloupe", "Honeydew", "Pineapple", "Kiwi", "Mango", "Peaches", "Plums", "Pears", "Cherries", "Avocado", "Lemon", "Lime", "Garlic", "Ginger", "Cilantro", "Basil", "Mint", "Parsley", "Thyme", "Rosemary", "Oregano", "Sage", "Dill", "Chives", "Green Onions", "Celery", "Cabbage", "Brussels Sprouts", "Asparagus", "Artichokes", "Eggplant", "Zucchini", "Squash", "Pumpkin", "Sweet Potatoes", "Russet Potatoes", "Yukon Gold Potatoes", "Red Potatoes", "Carrots", "Beets", "Fennel", "Okra", "Snap Peas", "Snow Peas", "Green Beans", "Wax Beans", "Pinto Beans", "Black Beans", "Kidney Beans", "Garbanzo Beans", "Lentils", "Peas", "Corn", "Bell Peppers", "Jalapenos", "Poblano Peppers", "Chili Peppers", "Banana Peppers"],
-  dairy: ["Milk", "Cheese", "Yogurt", "Butter", "Eggs", "Cottage Cheese", "Cream Cheese", "Whipped Cream", "Half & Half", "Heavy Cream", "Sour Cream", "Buttermilk", "Goat Cheese", "Feta Cheese", "Parmesan Cheese", "Mozzarella Cheese", "Cheddar Cheese", "Swiss Cheese", "Provolone Cheese", "Gouda Cheese", "Gorgonzola Cheese", "Havarti Cheese", "Monterey Jack Cheese", "Pepper Jack Cheese", "Colby Jack Cheese", "American Cheese", "Muenster Cheese", "Bleu Cheese", "Ricotta Cheese"],
-  frozen: ["Pizza", "Ice Cream", "Frozen Vegetables", "Frozen Fruit", "Frozen Meals", "Frozen Breakfast", "Frozen Desserts", "Frozen Snacks", "Frozen Appetizers"],
-  "gluten-other-allergens": ["Gluten-Free Bread", "Gluten-Free Pasta", "Gluten-Free Crackers", "Gluten-Free Cookies", "Gluten-Free Cereal", "Gluten-Free Baking Mixes"],
-  "dry-goods": ["Rice", "Pasta", "Cereal", "Oatmeal", "Quinoa", "Couscous", "Barley", "Farro", "Flour", "Sugar", "Brown Sugar", "Baking Powder"],
-  "household-goods": ["Soap", "Toilet Paper", "Paper Towels", "Laundry Detergent", "Dish Soap", "Cleaning Supplies", "Trash Bags"],
-  "pet-supplies": ["Dog Food", "Cat Litter", "Cat Food", "Dog Treats", "Cat Treats", "Dog Toys", "Cat Toys"],
+  produce: ["Apples", "Bananas", "Carrots", "Lettuce", "Tomatoes"],
+  dairy: ["Milk", "Cheese", "Yogurt", "Butter", "Eggs"],
+  frozen: ["Pizza", "Ice Cream", "Frozen Vegetables"],
+  "gluten-other-allergens": ["Gluten-Free Bread", "Gluten-Free Pasta"],
+  "dry-goods": ["Rice", "Pasta", "Cereal"],
+  "household-goods": ["Soap", "Toilet Paper", "Trash Bags"],
+  "pet-supplies": ["Dog Food", "Cat Food"],
 };
 
 const landingPage = document.getElementById("landing-page");
@@ -19,11 +19,27 @@ const groceryListUl = document.getElementById("grocery");
 const totalSpan = document.getElementById("total");
 const alertMessage = document.getElementById("alert");
 const backToCategoriesBtn = document.getElementById("back-to-categories");
+const previousListsDiv = document.getElementById("previous-lists");
+const previousListsUl = document.getElementById("previous-grocery-lists");
 
 let budget = 0;
 let total = 0;
 let groceryList = JSON.parse(localStorage.getItem("groceryList")) || [];
+let previousLists = JSON.parse(localStorage.getItem("previousLists")) || [];
 
+// Populate category buttons dynamically
+function populateCategoryButtons() {
+  categoriesDiv.innerHTML = "";
+  for (const category in categories) {
+    const button = document.createElement("button");
+    button.textContent = category.replace(/-/g, " ").toUpperCase();
+    button.classList.add("category-btn");
+    button.dataset.category = category;
+    categoriesDiv.appendChild(button);
+  }
+}
+
+// Update the grocery list UI
 function updateGroceryListUI() {
   groceryListUl.innerHTML = "";
   total = 0;
@@ -36,21 +52,21 @@ function updateGroceryListUI() {
       <button class="remove-btn" data-index="${index}">Remove</button>
     `;
     groceryListUl.appendChild(li);
-    total += item.price; // Add the price to the total
+    total += item.price;
   });
 
-  totalSpan.textContent = total.toFixed(2); // Update the total display
+  totalSpan.textContent = total.toFixed(2);
 
-  // Show or hide the over-budget warning
   if (total > budget) {
-    alertMessage.classList.remove("hidden"); // Show warning
+    alertMessage.classList.remove("hidden");
   } else {
-    alertMessage.classList.add("hidden"); // Hide warning
+    alertMessage.classList.add("hidden");
   }
 
-  localStorage.setItem("groceryList", JSON.stringify(groceryList)); // Persist changes
+  localStorage.setItem("groceryList", JSON.stringify(groceryList));
 }
 
+// Handle category selection
 function handleCategorySelection(category) {
   itemsUl.innerHTML = "";
   categories[category].forEach((item) => {
@@ -65,23 +81,61 @@ function handleCategorySelection(category) {
   itemsListDiv.classList.remove("hidden");
 }
 
+// Handle adding an item
 function handleAddItem(itemName, price) {
   const item = { name: itemName, price: parseFloat(price) };
   groceryList.push(item);
   updateGroceryListUI();
 }
 
+// Handle removing an item
 function handleRemoveItem(index) {
   groceryList.splice(index, 1);
   updateGroceryListUI();
 }
 
+// Handle login form submission
 function handleSubmitLogin(event) {
   event.preventDefault();
-  budget = parseFloat(budgetInput.value);
+  const budgetValue = parseFloat(budgetInput.value);
+  if (isNaN(budgetValue) || budgetValue <= 0) {
+    alert("Please enter a valid budget amount!");
+    return;
+  }
+  budget = budgetValue;
   landingPage.classList.add("hidden");
   trackerPage.classList.remove("hidden");
   updateGroceryListUI();
+  populatePreviousLists();
+}
+
+// Save current list to previous lists
+function saveCurrentList() {
+  if (groceryList.length > 0) {
+    previousLists.push({ list: groceryList, timestamp: new Date().toLocaleString() });
+    localStorage.setItem("previousLists", JSON.stringify(previousLists));
+  }
+}
+
+// Populate previous lists section
+function populatePreviousLists() {
+  previousListsUl.innerHTML = "";
+  previousLists.forEach((entry, index) => {
+    const li = document.createElement("li");
+    li.className = "previous-list-item";
+    li.innerHTML = `
+      <span>List from ${entry.timestamp}</span>
+      <button class="reuse-list-btn" data-index="${index}">Reuse</button>
+    `;
+    previousListsUl.appendChild(li);
+  });
+}
+
+// Handle reuse of a previous list
+function handleReuseList(index) {
+  groceryList = [...previousLists[index].list];
+  updateGroceryListUI();
+  alert("Previous list loaded successfully!");
 }
 
 // Event Listeners
@@ -109,6 +163,14 @@ backToCategoriesBtn.addEventListener("click", () => {
   itemsListDiv.classList.add("hidden");
   categoriesDiv.classList.remove("hidden");
 });
+previousListsUl.addEventListener("click", (e) => {
+  if (e.target.classList.contains("reuse-list-btn")) {
+    const index = e.target.dataset.index;
+    handleReuseList(index);
+  }
+});
 
 // Initialize UI
+populateCategoryButtons();
+populatePreviousLists();
 updateGroceryListUI();
