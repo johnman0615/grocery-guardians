@@ -1,11 +1,11 @@
 const categories = {
-  produce: ["Apples", "Bananas", "Carrots", "Lettuce", "Tomatoes"],
-  dairy: ["Milk", "Cheese", "Yogurt", "Butter", "Eggs"],
-  frozen: ["Pizza", "Ice Cream", "Frozen Vegetables"],
-  "gluten-other-allergens": ["Gluten-Free Bread", "Gluten-Free Pasta"],
-  "dry-goods": ["Rice", "Pasta", "Cereal"],
-  "household-goods": ["Soap", "Toilet Paper", "Trash Bags"],
-  "pet-supplies": ["Dog Food", "Cat Food"],
+  produce: ["Apples", "Bananas", "Carrots", "Lettuce"],
+  dairy: ["Milk", "Cheese", "Yogurt"],
+  frozen: ["Pizza", "Ice Cream"],
+  "gluten-other-allergens": ["Gluten-Free Bread"],
+  "dry-goods": ["Rice", "Pasta"],
+  "household-goods": ["Soap", "Toilet Paper"],
+  "pet-supplies": ["Dog Food", "Cat Litter"]
 };
 
 const landingPage = document.getElementById("landing-page");
@@ -67,18 +67,23 @@ function updateGroceryListUI() {
 }
 
 // Handle category selection
-function handleCategorySelection(category) {
+document.querySelectorAll(".category").forEach(category => {
+  category.addEventListener("click", function () {
+    displayItems(category.dataset.category);
+  });
+});
+
+function displayItems(category) {
+  const itemsUl = document.getElementById("items");
   itemsUl.innerHTML = "";
-  categories[category].forEach((item) => {
+  categories[category].forEach(item => {
     const li = document.createElement("li");
-    li.innerHTML = `
-      ${item}
-      <button class="add-btn" data-item="${item}" data-price="${(Math.random() * 10 + 1).toFixed(2)}">Add</button>
-    `;
+    li.textContent = item;
+    li.addEventListener("click", () => addItemToGroceryList(item));
     itemsUl.appendChild(li);
   });
-  categoriesDiv.classList.add("hidden");
   itemsListDiv.classList.remove("hidden");
+  categoriesDiv.classList.add("hidden");
 }
 
 // Handle adding an item
