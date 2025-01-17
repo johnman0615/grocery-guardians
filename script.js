@@ -20,7 +20,7 @@ const totalSpan = document.getElementById("total");
 const alertMessage = document.getElementById("alert");
 const backToCategoriesBtn = document.getElementById("back-to-categories");
 const previousListsDiv = document.getElementById("previous-lists");
-const previousListsUl = document.getElementById("previous-grocery-lists");
+const previousListsUl = document.getElementById("grocery-list");
 
 let budget = 0;
 let total = 0;
@@ -83,9 +83,11 @@ function handleCategorySelection(category) {
 
 // Handle adding an item
 function handleAddItem(itemName, price) {
+
   const item = { name: itemName, price: parseFloat(price) };
   groceryList.push(item);
   updateGroceryListUI();
+ 
 }
 
 // Handle removing an item
@@ -97,7 +99,9 @@ function handleRemoveItem(index) {
 // Handle login form submission
 function handleSubmitLogin(event) {
   event.preventDefault();
-  const budgetValue = parseFloat(budgetInput.value);
+  landingPage.classList.add("hidden");
+  trackerPage.classList.remove("hidden");
+  /*const budgetValue = parseFloat(budgetInput.value);
   if (isNaN(budgetValue) || budgetValue <= 0) {
     alert("Please enter a valid budget amount!");
     return;
@@ -106,9 +110,12 @@ function handleSubmitLogin(event) {
   landingPage.classList.add("hidden");
   trackerPage.classList.remove("hidden");
   updateGroceryListUI();
-  populatePreviousLists();
+  populatePreviousLists();*/
 }
 
+function calculateBudget() {
+ 
+}
 // Save current list to previous lists
 function saveCurrentList() {
   if (groceryList.length > 0) {
