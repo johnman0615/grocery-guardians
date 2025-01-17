@@ -2,10 +2,18 @@
 .container {
   border: 5px solid rgba(179, 222, 215, 0.132);
   background-color: rgb(138, 235, 33);
-  padding: 40px;
-  margin: 40px;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 800px;
   width: 300px;
   height: 200px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
 }
 
 .btn-primary {
