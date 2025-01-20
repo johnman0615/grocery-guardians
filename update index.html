@@ -108,6 +108,11 @@
     let total = 0;
     let groceryList = JSON.parse(localStorage.getItem("groceryList")) || [];
 
+    function calculateBudget() {
+  let budget = document.getElementById("budget").value;
+  let budgetResult = document.getElementById("budgetResult");
+  budgetResult.innerHTML = "Your budget is: $" + budget;
+    }
     function updateGroceryListUI() {
       groceryListUl.innerHTML = "";
       total = 0;
