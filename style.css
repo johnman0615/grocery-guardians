@@ -16,10 +16,6 @@
   }
 }
 
-.btn-primary {
-  background-color: rgb(69, 45, 203);
-}
-
 #categories {
   display: flex;
   flex-direction: column;
