@@ -27,3 +27,4 @@ In the end, the user can do the following to the webpage and it will respond as 
 
 ## GitHub Deploy Link
 
+https://johnman0615.github.io/grocery-guardians/
