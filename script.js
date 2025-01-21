@@ -199,29 +199,34 @@ const cancelFinalize = document.getElementById("cancel-finalize");
 
 // Show modal when finalize button is clicked
 finalizeBtn.addEventListener("click", () => {
-    modal.style.display = "block";
+    modal.style.display = "block"; // Show modal
 });
 
 // Close modal when 'x' is clicked
 closeModal.addEventListener("click", () => {
-    modal.style.display = "none";
+    modal.style.display = "none"; // Close modal
 });
 
 // Close modal when clicking outside the modal
 window.addEventListener("click", (event) => {
     if (event.target === modal) {
-        modal.style.display = "none";
+        modal.style.display = "none"; // Close modal if clicked outside
     }
 });
 
-// Handle confirmation
+// Handle confirmation - finalize the list
 confirmFinalize.addEventListener("click", () => {
+    // Calculate total spent
     let totalSpent = groceryList.reduce((sum, item) => sum + item.price, 0);
+
+    // Display the final total at the bottom of the list
     groceryListUl.insertAdjacentHTML("beforeend", `<li><strong>Final Total: $${totalSpent.toFixed(2)}</strong></li>`);
+
+    // Hide the modal
     modal.style.display = "none";
 });
 
-// Cancel finalization
+// Handle canceling finalization - do nothing and just close the modal
 cancelFinalize.addEventListener("click", () => {
-    modal.style.display = "none";
+    modal.style.display = "none"; // Just close the modal, don't finalize
 });
