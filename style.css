@@ -86,11 +86,12 @@ body {
 
 /* Modal Content */
 .modal-content {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency for better focus */
     margin: 15% auto;
-    padding: 20px;
+    padding: 30px; /* Increased padding for better spacing */
     border-radius: 8px;
-    width: 300px;
+    width: 80%;
+    max-width: 400px; /* Adjust max width for responsiveness */
     text-align: center;
     position: relative;
 }
@@ -120,4 +121,11 @@ button {
 #cancel-finalize {
     background-color: red;
     color: white;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+  .modal-content {
+      width: 90%;
+  }
 }
