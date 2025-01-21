@@ -189,3 +189,39 @@ previousListsUl.addEventListener("click", (e) => {
 populateCategoryButtons();
 populatePreviousLists();
 updateGroceryListUI();
+
+// Get modal elements
+const modal = document.getElementById("finalize-modal");
+const finalizeBtn = document.getElementById("finalize-list-btn");
+const closeModal = document.querySelector(".close");
+const confirmFinalize = document.getElementById("confirm-finalize");
+const cancelFinalize = document.getElementById("cancel-finalize");
+
+// Show modal when finalize button is clicked
+finalizeBtn.addEventListener("click", () => {
+    modal.style.display = "block";
+});
+
+// Close modal when 'x' is clicked
+closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+// Close modal when clicking outside the modal
+window.addEventListener("click", (event) => {
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+});
+
+// Handle confirmation
+confirmFinalize.addEventListener("click", () => {
+    let totalSpent = groceryList.reduce((sum, item) => sum + item.price, 0);
+    groceryListUl.insertAdjacentHTML("beforeend", `<li><strong>Final Total: $${totalSpent.toFixed(2)}</strong></li>`);
+    modal.style.display = "none";
+});
+
+// Cancel finalization
+cancelFinalize.addEventListener("click", () => {
+    modal.style.display = "none";
+});
