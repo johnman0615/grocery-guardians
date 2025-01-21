@@ -20,3 +20,10 @@ In the end, the user can do the following to the webpage and it will respond as 
     4. If prices are added, the app automatically calculates and displays the total cost of the list in real time.
     5. The grocery list persists between sessions using local storage.
     6. The app features a responsive design, ensuring ease of use on mobile devices for in-store shopping.
+
+![screenshot](project-1-login-page.jpg)
+
+![screenshot](project-1-budget-page.jpg)
+
+## GitHub Deploy Link
+
