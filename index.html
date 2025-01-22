@@ -20,6 +20,7 @@
   </style>
   
 </head>
+  
 <body>
   <div class="overlay"></div>
   <div id="landing-page" class="container">
@@ -175,19 +176,25 @@
     updateGroceryListUI();
   </script>
   <!-- Finalize List Button -->
-<button id="finalize-list-btn">Finalize List</button>
-
-<!-- Finalize Modal -->
-<div id="finalize-modal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Have you double-checked that your list has everything you need?</p>
-    <div>
-      <button id="confirm-finalize">Yes</button>
-      <button id="cancel-finalize">No</button>
+ <button type="button" style="background-color: blueviolet;" class="btn btn-primary2" data-bs-toggle="modal" data-bs-target="#exampleModal">CLICK HERE
+  </button>
+  
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">"REMINDER!"</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">Did You Double Check the List?
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">"No"</button>
+          <button type="button" class="btn btn-primary">"Yes"</button>
+        </div>
     </div>
-  </div>
-</div>
 
 </body>
 </html>
